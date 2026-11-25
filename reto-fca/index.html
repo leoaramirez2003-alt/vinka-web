@@ -578,7 +578,7 @@ function qrSvg(seed){
   }
   return '<svg viewBox="0 0 '+n+' '+n+'" fill="#0A100D" shape-rendering="crispEdges" role="img" aria-label="QR de ejemplo que cambia cada 15 segundos">'+out+'</svg>';
 }
-var names=['Ana','Luis','Marco','Elena','Jorge','Carla','Diego','Sofía'],simState=null;
+var names=[],simState=null; /* la hoja arranca vacía: sin nombres de ejemplo */
 var UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 var API=(function(){var h=location.hostname;return /(^|\.)vinka-api\.onrender\.com$/.test(h)||h==='localhost'||h==='127.0.0.1'?'':'https://vinka-api.onrender.com'})();
 var PITCH=API!==''||/^\/pitch/.test(location.pathname);
