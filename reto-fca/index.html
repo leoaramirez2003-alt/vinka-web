@@ -249,7 +249,8 @@ body{margin:0;overflow:hidden;font-family:'Plus Jakarta Sans',Arial,sans-serif}
 .lr .nm{left:110px;font-family:'Caveat',cursive;font-size:56px;color:var(--pen)}
 .lr .hr{left:560px;font-size:38px;font-weight:800;color:var(--forest);font-variant-numeric:tabular-nums;letter-spacing:1px}
 .lr .st{left:800px;top:12px;height:52px;padding:0 20px;border:5px solid var(--forest);border-radius:10px;font-size:30px;font-weight:800;letter-spacing:3px;color:var(--forest);transform:rotate(-6deg);animation:stampin .55s both;background:rgba(174,244,207,.55)}
-.lr .st.late{border-color:#8A5A00;color:#8A5A00;background:rgba(245,198,110,.55)}
+.lr .st{white-space:nowrap;display:flex;align-items:center}
+.lr .st.late{padding:0 16px;font-size:23px;letter-spacing:2px;border-color:#8A5A00;color:#8A5A00;background:rgba(245,198,110,.55)}
 @keyframes stampin{0%{opacity:0;transform:scale(2.2) rotate(-16deg)}55%{opacity:1;transform:scale(.94) rotate(-4deg)}100%{opacity:1;transform:scale(1) rotate(-6deg)}}
 .lr .hr,.lr .nm{animation:inkin .5s both}
 .lr.still .hr,.lr.still .nm,.lr.still .st{animation:none}
@@ -633,7 +634,10 @@ gate.addEventListener('keydown',function(e){e.stopPropagation()});
 function setGate(html){gate.classList.remove('lg');if(html){gate.innerHTML=html;gate.style.display='block'}else gate.style.display='none'}
 var autoState='idle';
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function demoOf(id){return jf('/sessions/'+encodeURIComponent(id)+'/demo').then(function(d){return d&&d.demo&&d.is_active?id:null})}
+function demoOf(id){return jf('/sessions/'+encodeURIComponent(id)+'/demo').then(function(d){
+  if(!(d&&d.demo&&d.is_active))return null;
+  /* se vuelve a marcar: con la hoja vacía la demostración arranca ahora y el primer registro sale «Presente» */
+  return jf('/sessions/'+encodeURIComponent(id)+'/demo','POST').catch(function(){}).then(function(){return id})})}
 function mkDemo(space){
   return jf('/sessions/start','POST',{space_id:space.id,request_id:uid(),allow_empty:true}).then(function(r){return r.id}).then(function(id){return jf('/sessions/'+encodeURIComponent(id)+'/demo','POST').then(function(){return id})})}
 function pickDemo(list){
